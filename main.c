@@ -19,26 +19,25 @@ void error_handler(char err[], int code) {
 	}
 }
 
-void resize_array(int** orig, int newSize) {
-	printf("Resizeing to: %lu\n", sizeof(*orig) * newSize);
+void resize_array( int** orig, int newSize ) {
+	printf("Resizing to: %lu\n", sizeof(*orig) * newSize);
 	int *temp = realloc(*orig, sizeof(**orig) * newSize);
 
 	if(temp == NULL) {
 		puts("resize failed");
 		exit(EXIT_FAILURE);
-	}
-	else{
+	} else {
 		*orig = temp;
 	}
 }
 
 int main(int argc, char * argv[]) {
 	int ret;
-
 	int inputSize = atoi(argv[1]);
 	printf("Specified input array will have %d items\n", inputSize);
 	printf("The program will sum the integers in the range [0, %d)\n", inputSize);
 	printf("==============\n");
+
 	/* create input data */
 	int* input = malloc(sizeof(*input) * inputSize);
 	for(int i = 0; i < inputSize; i++) {
@@ -47,11 +46,11 @@ int main(int argc, char * argv[]) {
 
 	int sizeDiff = inputSize - DEVICE_GROUP_SIZE;
 	int multiplier = 1;
-	if(sizeDiff < 0) { // inputSize is smaller than DEVICE_GROUP_SIZE
+	if(sizeDiff < 0) {
 		resize_array(&input, DEVICE_GROUP_SIZE);
 	}
 	else if(sizeDiff > 0) {
-		multiplier = ((inputSize % DEVICE_GROUP_SIZE) == 0) ? inputSize / DEVICE_GROUP_SIZE : (inputSize / DEVICE_GROUP_SIZE) +1;
+		multiplier = ((inputSize % DEVICE_GROUP_SIZE) == 0) ? inputSize / DEVICE_GROUP_SIZE : (inputSize / DEVICE_GROUP_SIZE) + 1;
 		resize_array(&input, multiplier * DEVICE_GROUP_SIZE);
 	}
 
@@ -112,7 +111,6 @@ int main(int argc, char * argv[]) {
 	sourceStr = (char*)malloc(MAX_SOURCE_SIZE);
 	sourceSize = fread(sourceStr, 1, MAX_SOURCE_SIZE, fp);
 	fclose(fp);
-
 	
 	/* create program object */
 	cl_program program = clCreateProgramWithSource(context, 1, (const char**)&sourceStr, (const size_t*)&sourceSize, &ret);	
@@ -167,5 +165,7 @@ int main(int argc, char * argv[]) {
 	ret = clReleaseContext(context);	
 
 	free(input);
+	free(result);
+
 	exit(EXIT_SUCCESS);
 }
