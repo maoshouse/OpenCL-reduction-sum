@@ -19,7 +19,6 @@ void error_handler(char err[], int code) {
 	}
 }
 
-// method is broken! realloc when implemented here messes the values up!
 void resize_array(int** orig, int newSize) {
 	printf("Resizeing to: %lu\n", sizeof(*orig) * newSize);
 	int *temp = realloc(*orig, sizeof(**orig) * newSize);
@@ -31,7 +30,6 @@ void resize_array(int** orig, int newSize) {
 	else{
 		*orig = temp;
 	}
-	
 }
 
 int main(int argc, char * argv[]) {
@@ -50,14 +48,10 @@ int main(int argc, char * argv[]) {
 	int sizeDiff = inputSize - DEVICE_GROUP_SIZE;
 	int multiplier = 1;
 	if(sizeDiff < 0) { // inputSize is smaller than DEVICE_GROUP_SIZE
-	//	int *temp = realloc(input, multiplier * DEVICE_GROUP_SIZE * sizeof(*input));
-	//	input = temp;
 		resize_array(&input, DEVICE_GROUP_SIZE);
 	}
 	else if(sizeDiff > 0) {
 		multiplier = ((inputSize % DEVICE_GROUP_SIZE) == 0) ? inputSize / DEVICE_GROUP_SIZE : (inputSize / DEVICE_GROUP_SIZE) +1;
-	//	int *temp = realloc(input, multiplier * DEVICE_GROUP_SIZE * sizeof(*input));
-	//	input = temp;
 		resize_array(&input, multiplier * DEVICE_GROUP_SIZE);
 	}
 
