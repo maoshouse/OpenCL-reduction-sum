@@ -170,5 +170,7 @@ int main(int argc, char * argv[]) {
 	ret = clReleaseMemObject(outputMemObj);
 	ret = clReleaseCommandQueue(commandQueue);
 	ret = clReleaseContext(context);	
+
+	free(input);
 	exit(EXIT_SUCCESS);
 }
