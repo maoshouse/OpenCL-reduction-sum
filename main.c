@@ -145,9 +145,10 @@ int main(int argc, char * argv[]) {
 	error_handler("Set arg 3 failure", ret);
 	ret = clSetKernelArg(kernel, 3, sizeof(int) * DEVICE_GROUP_SIZE, NULL);
 	error_handler("Set arg 4 failure", ret);
+
 	/* enqueue and execute */
 	const size_t globalWorkSize = inputSize;
-	const size_t localWorkSize = DEVICE_GROUP_SIZE; //inputSize / DEVICE_GROUP_SIZE; // in addition, we need work group size to be at least 2... figure this one out later
+	const size_t localWorkSize = DEVICE_GROUP_SIZE;
 	ret = clEnqueueNDRangeKernel(commandQueue, kernel, 1, NULL, &globalWorkSize, &localWorkSize, 0, NULL, NULL);
 	error_handler("Enqueue/execute failure", ret);
 	
