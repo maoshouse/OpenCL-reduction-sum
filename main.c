@@ -12,6 +12,10 @@
 #define MAX_SOURCE_SIZE 0x100000
 #define DEVICE_GROUP_SIZE 64
 
+/*
+ * error_handler
+ * Handles OpenCL errors codes. Exits execution if bad stuff happens.
+ */
 void error_handler(char err[], int code) {
 	if(code != CL_SUCCESS) {
 		printf("%s, Error code:%d\n", err, code);
@@ -19,7 +23,10 @@ void error_handler(char err[], int code) {
 	}
 }
 
-void resize_array( int** orig, int newSize ) {
+/* resize_array
+ * Resizes dynamically allocated array of integers.
+ */
+void resize_array(int** orig, int newSize) {
 	printf("Resizing to: %lu\n", sizeof(*orig) * newSize);
 	int *temp = realloc(*orig, sizeof(**orig) * newSize);
 
@@ -31,6 +38,11 @@ void resize_array( int** orig, int newSize ) {
 	}
 }
 
+/* main
+ * Takes one parameter, integer value of n. Creates array of consequtive integers [0,n).
+ * Pads array with with 0s so that size becomes a multiple of DEVICE_GROUP_SIZE.
+ * Produces sum for array.
+ */
 int main(int argc, char * argv[]) {
 	int ret;
 	int inputSize = atoi(argv[1]);
@@ -165,7 +177,7 @@ int main(int argc, char * argv[]) {
 	ret = clReleaseContext(context);	
 
 	free(input);
-	free(result);
+	free(results);
 
 	exit(EXIT_SUCCESS);
 }
